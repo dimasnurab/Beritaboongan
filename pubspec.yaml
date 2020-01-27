@@ -11,7 +11,10 @@ dependencies:
 
   http: ^0.12.0+4
   provider: ^4.0.2
+  rxdart: ^0.23.1
+  shared_preferences: ^0.5.6+1
   webview_flutter: ^0.3.19+5
+  cached_network_image: ^2.0.0
   sailor: ^0.6.0
 
 
@@ -26,8 +29,8 @@ flutter:
 
   uses-material-design: true
 
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+   - assets/img/
   #  - images/a_dot_ham.jpeg
 
 
