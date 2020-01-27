@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:beritaboong/src/model/berita_articles.dart';
-import 'package:beritaboong/src/utils/privatedata.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
-// import '../model/privatedata.dart';
 
 class BeritaBlocs {
   BehaviorSubject<List<Articles>> _articles$;
@@ -18,9 +16,8 @@ class BeritaBlocs {
   }
 
   Future<void> getBerita() async {
-    final PrivateData _apiKey = PrivateData.getApikey();
     final String _urlNews =
-        'https://newsapi.org/v2/top-headlines?country=id&category=technology&apiKey=$_apiKey';
+        'https://newsapi.org/v2/top-headlines?country=id&category=technology&apiKey=4e36ec1ed77f496e99c666f35c5f3828';
     final _response = await http.get(_urlNews);
     if (_response.statusCode == 200) {
       final Map<String, dynamic> _json = jsonDecode(_response.body);

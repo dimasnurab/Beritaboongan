@@ -21,10 +21,10 @@ class _WebviewArticlesState extends State<WebviewArticles> {
     return SafeArea(
       child: Scaffold(
         body: WebView(
-          initialUrl: widget._articles.url.length > 50
-              ? widget._articles.url
-              : defaultUrl,
-          javascriptMode: JavascriptMode.unrestricted,
+          initialUrl: widget._articles.url ==  null
+              ? defaultUrl
+              :widget._articles.url ,
+          // javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webviewController) {
             _controller.complete(webviewController);
           },
