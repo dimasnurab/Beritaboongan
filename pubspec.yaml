@@ -15,8 +15,7 @@ dependencies:
   shared_preferences: ^0.5.6+1
   webview_flutter: ^0.3.19+5
   cached_network_image: ^2.0.0
-  sailor: ^0.6.0
-
+  intl: ^0.16.1
 
   
 dev_dependencies:

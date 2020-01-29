@@ -1,6 +1,7 @@
-import 'package:beritaboong/src/screens/home/home_screen.dart';
-import 'package:beritaboong/src/screens/undercontruction/undercontruction.dart';
 import 'package:flutter/material.dart';
+import '../undercontruction/undercontruction.dart';
+import '../../model/bottom_bar.dart';
+import '../home/homePage.dart';
 import './dashboard_bloc.dart';
 
 class DashBoard extends StatefulWidget {
@@ -8,16 +9,17 @@ class DashBoard extends StatefulWidget {
   _DashBoardState createState() => _DashBoardState();
 }
 
-class _DashBoardState extends State<DashBoard> {
+class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
   DashBoardBloc _dashBoardBloc;
   GlobalKey<ScaffoldState> _scaffoldKey;
-  List<String> _titles;
+  List<BottomBarModel> _bottomBar;
 
   @override
   void initState() {
     _dashBoardBloc = DashBoardBloc();
     _scaffoldKey = GlobalKey<ScaffoldState>();
-    _titles = ['Home', 'Bookmarks', 'Notification'];
+    _bottomBar = bottomBarItems;
+
     super.initState();
   }
 
@@ -27,6 +29,50 @@ class _DashBoardState extends State<DashBoard> {
     super.dispose();
   }
 
+  List<Widget> _buildBarItem(
+      List<BottomBarModel> list, int index, Function tabFunction) {
+    List<Widget> itemList = [];
+
+    for (int item = 0; item < list.length; item++) {
+      bool isSelected = index == item;
+      BottomBarModel barModel = list[item];
+      itemList.add(InkWell(
+        splashColor: Colors.transparent,
+        onTap: () => tabFunction(item),
+        child: AnimatedContainer(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10.0),
+          duration: Duration(milliseconds: 600),
+          decoration: BoxDecoration(
+              color: isSelected ? Colors.black : Colors.transparent,
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              isSelected
+                  ? Text("")
+                  : Icon(
+                      barModel.itemIcon,
+                      color: Colors.grey,
+                    ),
+              AnimatedSize(
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.elasticInOut,
+                  vsync: this,
+                  child: isSelected
+                      ? Text(
+                          barModel.title,
+                          style: TextStyle(color: Colors.white),
+                        )
+                      : Text(''))
+            ],
+          ),
+        ),
+      ));
+    }
+
+    return itemList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,12 +80,11 @@ class _DashBoardState extends State<DashBoard> {
         key: _scaffoldKey,
         backgroundColor: Colors.white,
         bottomNavigationBar: Container(
+          padding: EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
           decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                width: 1.0,
-                color: Colors.white,
-              ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
           ),
           child: StreamBuilder<int>(
@@ -49,31 +94,11 @@ class _DashBoardState extends State<DashBoard> {
                 return Container();
               }
               final int _index = snapshot.data;
-              return BottomNavigationBar(
-                onTap: (int index) => _dashBoardBloc.updatePageIndex(index),
-                backgroundColor: Colors.white,
-                type: BottomNavigationBarType.fixed,
-                selectedFontSize: 12.0,
-                unselectedFontSize: 10,
-                selectedItemColor: Colors.black,
-                unselectedItemColor: Colors.grey,
-                iconSize: 24,
-                currentIndex: _index,
-                elevation: 2,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    title: Text(_titles[0]),
-                    icon: Icon(Icons.home),
-                  ),
-                  BottomNavigationBarItem(
-                    title: Text(_titles[1]),
-                    icon: Icon(Icons.bookmark),
-                  ),
-                  BottomNavigationBarItem(
-                    title: Text(_titles[2]),
-                    icon: Icon(Icons.notifications),
-                  ),
-                ],
+              return Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: _buildBarItem(_bottomBar, _index,
+                    (index) => _dashBoardBloc.updatePageIndex(index)),
               );
             },
           ),
@@ -87,7 +112,7 @@ class _DashBoardState extends State<DashBoard> {
             final int _index = snapshot.data;
             switch (_index) {
               case 0:
-                return HomeScreen();
+                return HomePages();
                 break;
               case 1:
                 return UnderContruction();
@@ -95,8 +120,11 @@ class _DashBoardState extends State<DashBoard> {
               case 2:
                 return UnderContruction();
                 break;
+              case 3:
+                return UnderContruction();
+                break;
               default:
-                return HomeScreen();
+                return HomePages();
             }
           },
         ),
