@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:beritaboong/src/blocs/global.dart';
 import 'package:beritaboong/src/components/beritaCard.dart';
 import 'package:beritaboong/src/components/beritacardDua.dart';
@@ -24,6 +26,13 @@ class _HomePagesState extends State<HomePages> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.connectionState is SocketException) {
+          return Center(
+            child: Text(
+              'Pastikan koneksi anda terhubung ke internet \nKalau ga ada minta ketemen',
+              style: BoboonganAppTheme.errorMessageConnection,
+            ),
           );
         }
         final List<Articles> _beritaItem = snapshot.data;

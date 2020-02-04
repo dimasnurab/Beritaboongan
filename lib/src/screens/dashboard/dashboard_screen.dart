@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:beritaboong/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import '../undercontruction/undercontruction.dart';
 import '../../model/bottom_bar.dart';
@@ -36,40 +39,41 @@ class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
     for (int item = 0; item < list.length; item++) {
       bool isSelected = index == item;
       BottomBarModel barModel = list[item];
-      itemList.add(InkWell(
-        splashColor: Colors.transparent,
-        onTap: () => tabFunction(item),
-        child: AnimatedContainer(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10.0),
-          duration: Duration(milliseconds: 600),
-          decoration: BoxDecoration(
-              color: isSelected ? Colors.black : Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              isSelected
-                  ? Text("")
-                  : Icon(
-                      barModel.itemIcon,
-                      color: Colors.grey,
-                    ),
-              AnimatedSize(
-                  duration: Duration(milliseconds: 200),
-                  curve: Curves.elasticInOut,
-                  vsync: this,
-                  child: isSelected
-                      ? Text(
-                          barModel.title,
-                          style: TextStyle(color: Colors.white),
-                        )
-                      : Text(''))
-            ],
+      itemList.add(
+        InkWell(
+          splashColor: Colors.transparent,
+          onTap: () => tabFunction(item),
+          child: AnimatedContainer(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10.0),
+            duration: Duration(milliseconds: 600),
+            decoration: BoxDecoration(
+                color: isSelected ? Colors.black : Colors.transparent,
+                borderRadius: BorderRadius.all(Radius.circular(16))),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                isSelected
+                    ? Text("")
+                    : Icon(
+                        barModel.itemIcon,
+                        color: Colors.grey,
+                      ),
+                AnimatedSize(
+                    duration: Duration(milliseconds: 200),
+                    curve: Curves.elasticInOut,
+                    vsync: this,
+                    child: isSelected
+                        ? Text(
+                            barModel.title,
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : Text(''))
+              ],
+            ),
           ),
         ),
-      ));
+      );
     }
-
     return itemList;
   }
 
@@ -90,8 +94,13 @@ class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
           child: StreamBuilder<int>(
             stream: _dashBoardBloc.pageIndex$,
             builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-              if (!snapshot.hasData) {
-                return Container();
+              if (snapshot.connectionState is SocketException) {
+                return Center(
+                  child: Text(
+                    'Upps ada kesalahan',
+                    style: BoboonganAppTheme.errorMessageConnection,
+                  ),
+                );
               }
               final int _index = snapshot.data;
               return Row(
@@ -106,8 +115,13 @@ class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
         body: StreamBuilder<int>(
           stream: _dashBoardBloc.pageIndex$,
           builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-            if (!snapshot.hasData) {
-              return Container();
+            if (snapshot.connectionState == ConnectionState.none) {
+              return Center(
+                child: Text(
+                  'Upps ada kesalahan',
+                  style: BoboonganAppTheme.errorMessageConnection,
+                ),
+              );
             }
             final int _index = snapshot.data;
             switch (_index) {

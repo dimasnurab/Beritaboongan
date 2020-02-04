@@ -10,10 +10,11 @@ class UnderContruction extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: 100,
-            height: 100,
+            width: 200,
+            height: 200,
             child: Image.asset('assets/img/gambar1.jpg'),
           ),
+          SizedBox(height: 14),
           Text(
             'Fitur ini sedang tahap pengembangan,\nNanti dikabarin lagi ya!!',
             style: TextStyle(color: Colors.grey, fontSize: 18),

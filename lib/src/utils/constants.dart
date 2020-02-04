@@ -26,6 +26,12 @@ class BoboonganAppTheme {
     color: Color(0xFF17262A),
   );
 
+  static const TextStyle errorMessageConnection = TextStyle(
+    fontSize: 14,
+    color: dark_grey,
+    fontWeight: FontWeight.w600,
+  );
+
   static const TextStyle titleStyleCardBerita = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,

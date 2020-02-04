@@ -35,7 +35,7 @@ class BeritaCard extends StatelessWidget {
                 child: CachedNetworkImage(
                   fadeInCurve: Curves.elasticIn,
                   fadeInDuration: Duration(milliseconds: 4000),
-                  imageUrl: _articles.urlToImage,
+                  imageUrl: _articles.urlToImage == null ? '' : _articles.urlToImage,
                   placeholder: (BuildContext context, _) => Center(
                     child: Text('Loading...'),
                   ),

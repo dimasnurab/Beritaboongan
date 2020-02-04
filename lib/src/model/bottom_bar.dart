@@ -7,9 +7,9 @@ class BottomBarModel {
   BottomBarModel({this.title, this.itemIcon});
 }
 
-List<BottomBarModel> get bottomBar => bottomBarItems;
+List<BottomBarModel> get bottomBarItems => _bottomBarItems;
 
-List<BottomBarModel> bottomBarItems = [
+List<BottomBarModel> _bottomBarItems = [
   BottomBarModel(title: 'HOME', itemIcon: Icons.home),
   BottomBarModel(title: 'PENCARIAN', itemIcon: Icons.search),
   BottomBarModel(title: 'NOTIFICATION', itemIcon: Icons.notifications),
