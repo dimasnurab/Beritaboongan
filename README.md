@@ -1,6 +1,5 @@
 # beritaboong
 
-tes exaditama
 
 ## Getting Started
 
